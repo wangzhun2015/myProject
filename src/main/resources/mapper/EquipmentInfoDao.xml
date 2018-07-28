@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wz.monitor.dao.EquipmentInfoDao">
+    
+	<sql id="equipmentCloumns">
+		a.ID as "id",
+		a.equipment_name as "equipmentName",
+		a.equipment_num as "equipmentNum",
+		a.ip as "ip",
+		a.port AS "port",
+		a.threadId AS "threadId",
+		a.open AS "open",
+		a.type As "type",
+		a.status AS "status",
+		a.attribute1 AS "attribute1",
+		a.attribute2 AS "attribute2",
+		a.attribute3 AS "attribute3",
+		a.attribute4 AS "attribute4",
+		a.attribute5 AS "attribute5"
+	</sql> 
+
+	<select id="findList" resultType="com.wz.monitor.entity.EquipmentInfo">
+		SELECT 
+			<include refid="equipmentCloumns"/>
+		FROM equipment_info a 
+		<where>
+		
+		<if test="id != null and id != ''">
+				and a.ID = #{id}
+		</if> 
+		<if test="equipmentName != null and equipmentName != ''">
+				and a.equipment_name = #{equipmentName}
+		</if> 
+		<if test="equipmentNum != null and equipmentNum != ''">
+				and a.equipment_num = #{equipmentNum} 
+		</if> 
+		</where>
+		order by a.equipment_name
+	</select> 
+	
+	
+	<select id="findByCode" resultType="com.wz.monitor.entity.EquipmentInfo">
+		select 
+		<include refid="equipmentCloumns"/>
+		from equipment_info  a 
+		where a. equipment_num=#{_paramater}
+	</select>	
+	<select id="findById" resultType="com.wz.monitor.entity.EquipmentInfo">
+		select 
+		<include refid="equipmentCloumns"/>
+		from equipment_info  a 
+		where a. ID=#{_paramater}
+	</select>	
+	<select id="findByThreadId" resultType="com.wz.monitor.entity.EquipmentInfo">
+		select 
+		<include refid="equipmentCloumns"/>
+		from equipment_info  a 
+		where a.threadId=#{_paramater}
+	</select>	
+	
+	
+	<insert id="insert">
+		INSERT INTO equipment_info(
+			ID,
+			equipment_name,
+			equipment_num, 
+			ip,
+			port,
+			threadId,
+			open,
+			type,
+			status,
+			attribute1, 
+			attribute2,
+			attribute3,
+			attribute4,
+			attribute5
+		) VALUES (
+			#{id},
+			#{equipmentName},
+			#{equipmentNum},
+			#{ip},
+			#{port}, 
+			#{threadId}, 
+			#{open}, 
+			#{type},
+			#{status}, 
+			#{attribute1},
+			#{attribute2},
+			#{attribute3},
+			#{attribute4},
+			#{attribute5}
+		)
+	</insert>
+	<update id="update">
+		UPDATE equipment_info SET 	 
+		    ID=#{id},
+			equipment_name=#{equipmentName},
+			equipment_num=#{equipmentNum}, 
+			ip =#{ip},
+			port =#{port},
+			threadId =#{threadId},
+			open =#{open},
+			type =#{type},
+			status =#{status},
+			attribute1=#{attribute1}, 
+			attribute2=#{attribute2},
+			attribute3=#{attribute3},
+			attribute4=#{attribute4},
+			attribute5=#{attribute5}
+		WHERE ID = #{id}  
+	</update> 
+	<delete id="delete">
+	delete equipment_info where ID=#{ID} 
+	</delete>
+</mapper>

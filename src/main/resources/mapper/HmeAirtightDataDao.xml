@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wz.monitor.dao.HmeAirtightDataDao">
+    
+	<sql id="airtightDataCloumns">
+		a.ID as "id",
+		a.equipment_name as "equipmentName",
+		a.scan_code as "scanCode" ,
+		a.barcode AS "barCode",
+		a.collect_time AS "collectTime",
+		a.airtight_value AS "airtightValue",
+		a.attribute1 AS "attribute1",
+		a.attribute2 AS "attribute2",
+		a.attribute3 AS "attribute3"
+		
+	</sql> 
+
+	<select id="findList" resultType="com.wz.monitor.entity.HmeAirtightData">
+		SELECT 
+			<include refid="airtightDataCloumns"/>
+		FROM hme_airtight_data a 
+		<where>
+		
+		<if test="id != null and id != ''">
+				and a.ID = #{id}
+		</if> 
+		<if test="equipmentName != null and equipmentName != ''">
+				and a.equipment_name = #{equipmentName}
+		</if> 
+		<if test="scanCode != null and scanCode != ''">
+				and a.scan_code = #{scanCode} 
+		</if> 
+		<if test="barCode != null and barCode != ''">
+				and a.barcode like '%${barCode}%' 
+		</if> 
+		<if test="beginTime != null and beginTime != ''">
+				and a.collect_time <![CDATA[>= ]]>#{beginTime} 
+		</if> 
+		<if test="endTime != null and endTime != ''">
+				and a.collect_time <![CDATA[<= ]]> #{endTime} 
+		</if> 
+		</where>
+		order by collect_time desc limit #{beginRows},#{endRows}
+	</select> 
+	<select id="findTotalCount" resultType="int">
+		 
+		SELECT	 count(*) AS "totalPage"
+		FROM hme_airtight_data a 
+		<where>
+		
+		<if test="id != null and id != ''">
+				and a.ID = #{id}
+		</if> 
+		<if test="equipmentName != null and equipmentName != ''">
+				and a.equipment_name = #{equipmentName}
+		</if> 
+		<if test="scanCode != null and scanCode != ''">
+				and a.scan_code = #{scanCode} 
+		</if> 
+		<if test="barCode != null and barCode != ''">
+				and a.barcode = #{barCode} 
+		</if> 
+		<if test="beginTime != null and beginTime != ''">
+				and a.collect_time <![CDATA[>= ]]>#{beginTime} 
+		</if> 
+		<if test="endTime != null and endTime != ''">
+				and a.collect_time <![CDATA[<= ]]> #{endTime} 
+		</if> 
+		</where>
+	</select> 
+	
+	
+	<select id="findByCode" resultType="com.wz.monitor.entity.HmeAirtightData">
+		select 
+		<include refid="airtightDataCloumns"/>
+		from hme_airtight_data  a 
+		where a.barcode=#{_paramater}
+	</select>	
+	
+	
+	<insert id="insert">
+		INSERT INTO hme_airtight_data(
+			ID,
+			equipment_name,
+			scan_code, 
+			barcode,
+			collect_time,
+			airtight_value,
+			attribute1,
+			attribute2,
+			attribute3
+		) VALUES (
+			#{id},
+			#{equipmentName},
+			#{scanCode},
+			#{barCode}, 
+			#{collectTime}, 
+			#{airtightValue}, 
+			#{attribute1},
+			#{attribute2},
+			#{attribute3}
+		)
+	</insert>
+	<update id="update">
+		UPDATE hme_airtight_data SET 	 
+		    ID=#{id},
+			equipment_name=#{equipmentName},
+			scan_code=#{scanCode}, 
+			barcode =#{barCode},
+			collect_time =#{collectTime},
+			airtight_value =#{airtightValue},
+			attribute1=#{attribute1}, 
+			attribute2=#{attribute2},
+			attribute3=#{attribute3}
+		WHERE ID = #{id}  
+	</update> 
+	<delete id="delete">
+	delete hme_airtight_data where ID=#{id} 
+	</delete>
+</mapper>

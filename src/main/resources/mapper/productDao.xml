@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wz.monitor.dao.ProductDao">
+    
+	
+	<sql id="productColumn">
+		a.id as "id",
+		a.name as "name",
+		a.sort as "sort" ,
+		a.sale_number AS "saleNumber",
+		a.total_number AS "totalNumber",
+		a.price AS "price",
+		a.url AS "url",
+		a.introduction AS "introduction",
+		a.more_url AS "moreUrl",
+		a.create_date AS "createDate",
+		a.del_flag AS "delFlag"
+	</sql> 
+	
+
+	<select id="findList" resultType="com.wz.monitor.entity.Product">
+		SELECT 
+			<include refid="productColumn"/>
+		FROM ymall_product a 
+	</select> 
+	
+	
+	<select id="findTotalCount" resultType="java.lang.Integer">
+		select 
+		count(1)
+		from ymall_product  a 
+	</select>	
+	
+	
+	<insert id="insert">
+		INSERT INTO ymall_product(
+			ID,
+			name,
+			sort, 
+			sale_number,
+			total_number,
+			price,
+			url,
+			introduction,
+			more_url,
+			create_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{name},
+			#{sort},
+			#{saleNumber}, 
+			#{totalNumber}, 
+			#{price}, 
+			#{url}, 
+			#{introduction}, 
+			#{moreUrl}, 
+			#{createDate},
+			#{delFlag}
+		)
+	</insert>
+	<update id="update">
+		UPDATE ymall_product SET 	 
+			name=#{name},
+			sort=#{sort}, 
+			sale_number =#{saleNumber},
+			total_number =#{totalNumber},
+			url =#{url},
+			price =#{price},
+			introduction =#{introduction},
+			more_url =#{moreUrl},
+			create_date=#{createDate}, 
+			del_flag=#{delFlag}
+		WHERE ID = #{id}  
+	</update> 
+	<delete id="delete">
+	delete ymall_product where ID=#{id} 
+	</delete> 
+</mapper>

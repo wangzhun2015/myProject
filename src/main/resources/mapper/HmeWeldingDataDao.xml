@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wz.monitor.dao.HmeWeldingDataDao">
+    
+	
+	<sql id="hmeWeldingDataCloumns">
+		a.ID as "id",
+		a.equipment_name as "equipmentName",
+		a.scan_code as "scanCode" ,
+		a.barcode AS "barcode",
+		a.welding_type AS "weldingType",
+		a.electricity_value AS "electricityValue",
+		a.voltage_value AS "voltageValue",
+		a.collect_time AS "collectTime",
+		a.attribute1 AS "attribute1",
+		a.attribute2 AS "attribute2",
+		a.attribute3 AS "attribute3",
+		a.attribute4 AS "attribute4",
+		a.attribute5 AS "attribute5"
+	</sql> 
+	
+
+	<select id="findList" resultType="com.wz.monitor.entity.HmeWeldingData">
+		SELECT 
+			<include refid="hmeWeldingDataCloumns"/>
+		FROM hme_welding_data a 
+		<where>
+		
+		<if test="id != null and id != ''">
+				and a.ID = #{id}
+		</if> 
+		<if test="equipmentName != null and equipmentName != ''">
+				and a.equipment_name = #{equipmentName}
+		</if> 
+		<if test="scanCode != null and scanCode != ''">
+				and a.scan_code = #{scanCode} 
+		</if> 
+		</where>
+	</select> 
+	
+	
+	<select id="findByCode" resultType="com.wz.monitor.entity.HmeWeldingData">
+		select 
+		<include refid="hmeWeldingDataCloumns"/>
+		from hme_welding_data  a 
+		where a. equipment_num=#{_paramater}
+	</select>	
+	
+	
+	<insert id="insert">
+		INSERT INTO hme_welding_data(
+			ID,
+			equipment_name,
+			scan_code, 
+			barcode,
+			welding_type,
+			electricity_value,
+			voltage_value,
+			collect_time,
+			attribute1,
+			attribute2,
+			attribute3,
+			attribute4,
+			attribute5
+		) VALUES (
+			#{id},
+			#{equipmentName},
+			#{scanCode},
+			#{barcode}, 
+			#{weldingType}, 
+			#{electricityValue}, 
+			#{voltageValue}, 
+			#{collectTime}, 
+			#{attribute1},
+			#{attribute2},
+			#{attribute3},
+			#{attribute4},
+			#{attribute5},
+		)
+	</insert>
+	<update id="update">
+		UPDATE hme_welding_data SET 	 
+		    ID=#{id},
+			equipment_name=#{equipmentName},
+			scan_code=#{scanCode}, 
+			barcode =#{barcode},
+			welding_type =#{weldingType},
+			electricity_value =#{electricityValue},
+			voltage_value =#{voltageValue},
+			collect_time =#{collectTime},
+			attribute1=#{attribute1}, 
+			attribute2=#{attribute2},
+			attribute3=#{attribute3},
+			attribute4=#{attribute4},
+			attribute5=#{attribute5}
+		WHERE ID = #{id}  
+	</update> 
+	<delete id="delete">
+	delete hme_welding_data where ID=#{id} 
+	</delete>
+</mapper>
