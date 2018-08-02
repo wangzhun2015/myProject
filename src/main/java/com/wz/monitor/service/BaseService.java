@@ -23,5 +23,9 @@ public class BaseService <D extends BasetDao<T>, T extends BaseEntity<T>>  {
 		page.setPageSize(t.getPageSize());
 		return page;
 	}
+	
+	public List<T> findList(T t){
+		return d.findList(t);
+	}
 
 }

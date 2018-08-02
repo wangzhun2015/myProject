@@ -22,6 +22,15 @@
 		SELECT 
 			<include refid="productColumn"/>
 		FROM ymall_product a 
+		<where>
+		<if test="beginTime != null and beginTime != ''">
+				and a.create_date <![CDATA[>= ]]>#{beginTime} 
+		</if> 
+		<if test="endTime != null and endTime != ''">
+				and a.create_date <![CDATA[<= ]]> #{endTime} 
+		</if> 
+		</where>
+		order by create_date desc limit #{beginRows},#{endRows}
 	</select> 
 	
 	
