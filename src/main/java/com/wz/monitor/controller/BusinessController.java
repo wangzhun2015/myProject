@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,6 +15,9 @@ import com.wz.monitor.entity.Response;
 import com.wz.monitor.util.BsDateUtil;
  @RequestMapping("/business")
 public class BusinessController extends BaseController {
+	 @Value("${basedir.path}")
+	private String filePath;
+	 
     @ResponseBody
     @RequestMapping("/uploadImg")
     public Object uploadPicture(@RequestParam(value="file",required=false)MultipartFile file, HttpServletRequest request){
